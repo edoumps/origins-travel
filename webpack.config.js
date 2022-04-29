@@ -22,6 +22,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name][contenthash].js',
     clean: true,
+    // assetModuleFilename: '[name][ext]',
   },
 
   // Debuging Help
@@ -44,6 +45,28 @@ module.exports = {
       {
         test: /\.scss$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        // Old JS Browsers Compatibility
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
+        },
+      },
+      {
+        test: /\.(png|svg|jpeg|jpg|gif)$/i,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[hash:6].[ext]',
+          outputPath: 'images',
+          publicPath: 'images',
+          emitFile: true,
+          esModule: false,
+        },
       },
     ],
   },
